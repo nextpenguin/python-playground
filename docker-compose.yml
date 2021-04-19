@@ -1,0 +1,39 @@
+version: "3"
+services:
+  db:
+    build: ./docker/mysql
+    container_name: python-play-db
+    restart: always
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: playground
+      MYSQL_ROOT_PASSWORD: passw0rd
+      TZ: "Asia/Tokyo"
+    ports:
+      - 54801:3306
+    volumes:
+      - mysql:/var/lib/mysql
+      - ./docker/mysql/initdb.d:/docker-entrypoint-initdb.d
+      - ./docker/mysql/conf.d:/etc/mysql/conf.d
+      - ./log/mysql:/var/log/mysql
+      - ./share:/workspace
+    networks:
+      - default
+
+  python:
+    build: 
+      context: ./docker/python
+      dockerfile: Dockerfile
+    container_name: python-play-python
+    command: sleep infinity
+    volumes:
+      - ./share:/workspace
+    ports:
+      - 54811:8080
+    networks:
+      - default
+    links:
+      - db
+
+volumes:
+  mysql:
