@@ -3,7 +3,7 @@ services:
   db:
     build: ./docker/mysql
     container_name: python-play-db
-    restart: always
+    # restart: always
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_DATABASE: playground
