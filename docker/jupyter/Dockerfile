@@ -12,7 +12,7 @@ COPY requirements.txt /tmp/pip-tmp/
 
 # Configure apt and install packages
 RUN apt-get update \
-    && apt-get -y install --no-install-recommends apt-utils dialog 2>&1 \
+    && apt-get -y install --no-install-recommends gcc g++ apt-utils dialog 2>&1 \
     && apt-get -y install vim curl \
     && apt-get install -y graphviz libgraphviz-dev
 
@@ -26,8 +26,8 @@ RUN apt-get install -y sudo \
     && chmod 0440 /etc/sudoers.d/$USERNAME 
 
 # Implement fonts for Japanese
-RUN curl -L  "https://moji.or.jp/wp-content/ipafont/IPAexfont/ipaexg00401.zip" > font.zip
+RUN curl -L  "https://moji.or.jp/wp-content/ipafont/IPAexfont/IPAexfont00401.zip" > font.zip
 RUN unzip font.zip
-RUN cp ipaexg00401/ipaexg.ttf /opt/conda/lib/python3.7/site-packages/matplotlib/mpl-data/fonts/ttf/ipaexg.ttf
-RUN echo "font.family : IPAexGothic" >>  /opt/conda/lib/python3.7/site-packages/matplotlib/mpl-data/matplotlibrc
+RUN cp IPAexfont00401/ipaexg.ttf /opt/conda/lib/python3.9/site-packages/matplotlib/mpl-data/fonts/ttf/ipaexg.ttf
+RUN echo "font.family : IPAexGothic" >>  /opt/conda/lib/python3.9/site-packages/matplotlib/mpl-data/matplotlibrc
 RUN rm -r ./.cache

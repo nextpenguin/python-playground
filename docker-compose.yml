@@ -3,14 +3,14 @@ services:
   db:
     build: ./docker/mysql
     container_name: python-play-db
-    # restart: always
+    restart: "no"
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_DATABASE: playground
       MYSQL_ROOT_PASSWORD: passw0rd
       TZ: "Asia/Tokyo"
     ports:
-      - 54801:3306
+      - 50001:3306
     volumes:
       - mysql:/var/lib/mysql
       - ./docker/mysql/initdb.d:/docker-entrypoint-initdb.d
@@ -26,13 +26,30 @@ services:
       dockerfile: Dockerfile
     container_name: python-play-python
     command: sleep infinity
+    environment:
+      TZ: "Asia/Tokyo"
     volumes:
       - ./share:/workspace
     ports:
-      - 54811:8080
+      - 50011:8080
     networks:
       - default
     links:
+      - db
+
+  jupyter:
+    build: 
+      context: ./docker/jupyter
+      dockerfile: Dockerfile
+    container_name: python-play-jupyter
+    command: sleep infinity
+    environment:
+      TZ: "Asia/Tokyo"
+    volumes:
+      - ./share:/home/jovyan/work/share
+    ports:
+      - 50031:8888
+    links: # depends_onと同じ機能
       - db
 
 volumes:
