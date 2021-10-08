@@ -18,7 +18,7 @@ RUN apt-get update \
     && apt-get -y install vim git iproute2 procps lsb-release \
     #
     # Install MySQL client
-    # && apt-get -y install mysql-client \
+    && apt-get -y install default-mysql-client \
     #
     # Install apps for project 
     # 
